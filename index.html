@@ -20,6 +20,15 @@ header h1{margin:0;font-size:26px;letter-spacing:.2px;}
 header .subtitle{margin:4px 0 0;color:#bcd8ee;font-size:13.5px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;}
 header p{max-width:900px;margin:10px 0 0;color:#dceafb;font-size:14px;}
 
+/* Back to the hub that lists every class. Hidden when no home URL is set, so a
+   standalone quiz does not show a link that goes nowhere. */
+.homelink{display:none;align-items:center;gap:6px;margin:0 0 12px;padding:6px 13px;
+  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);border-radius:999px;
+  color:#eaf3fb;text-decoration:none;font-size:13px;font-weight:600;width:fit-content;
+  transition:background .15s,border-color .15s;}
+.homelink:hover{background:rgba(255,255,255,.24);border-color:rgba(255,255,255,.55);color:#fff;}
+.homelink.on{display:inline-flex;}
+
 /* account bar - hidden entirely unless cross-device sync is configured */
 .authbox{display:none;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0 0;
   padding:10px 12px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);
@@ -194,6 +203,7 @@ footer{max-width:980px;margin:0 auto 40px;padding:0 16px;color:var(--muted);font
 <body>
 <header>
   <div class="inner">
+    <a class="homelink" id="homeLink" href="https://hbduncan12.github.io/">&#8592;&nbsp; All class quizzes</a>
     <div class="subtitle">Comprehensive Practice Quiz &middot; 930 questions &middot; 13 topics</div>
     <h1>Head &amp; Neck 1 Comprehensive Quiz</h1>
     <p>A self-paced review for Head &amp; Neck 1, built from the course lectures, the cranial nerve chart and the compiled course notes. Topics follow the course: the twelve cranial nerves and their skull exits, brainstem nuclei and functional columns, the autonomic supply of the head and neck, axial muscles, the special senses, each nerve in detail, the cervical plexus, and cranial nerve lesions and reflexes. Twelve drag-and-match questions cover the eye, the inferior surface of the brain, the skull base foramina, the muscles of facial expression, three regions of the interactive cranial nerve map, and Dr. Novak's cranial nerve chart one column at a time. Your progress (answers and flags) is automatically saved in this browser. Use the ✕ beside a choice to eliminate it, then select an answer for immediate feedback with the correct answer and explanation. Filter to Incorrect or Flagged and hit Reset &amp; retry to work through just those.</p>
@@ -1332,6 +1342,15 @@ document.querySelectorAll('.topic-cb').forEach(cb => { cb.checked = selectedModu
 document.getElementById('filter-'+statusMode).classList.add('active');
 renderQuiz();
 updateScore();
+
+// Show the "All class quizzes" link only when the build supplied a real URL.
+(function(){
+  const a = document.getElementById('homeLink');
+  if (!a) return;
+  const href = a.getAttribute('href') || '';
+  if (/^https?:\/\/[^\/]+/.test(href)) a.classList.add('on'); else a.remove();
+})();
+
 initSync();   // no-op unless SYNC is configured; never blocks first paint
 </script>
 </body>
